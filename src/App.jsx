@@ -10,11 +10,11 @@ export default function App() {
 
   return (
     <>
-      <Box display="flex" w="100vw" flexDirection="column" alignContent={"stretch"} p={4}>
-        <Box p={4} display="flex" flexDirection="column" w="100%">
+      <Box display="flex" w="100vw" flexDirection="column" alignContent={"stretch"}>
+        <Box pr={4} pl={4} display="flex" flexDirection="column" w="100%">
           <header>
-            <Heading as="h1" textAlign={"center"}><Text>My Productivity Dashboard</Text></Heading>
-            <Text fontSize={"lg"} textAlign={"center"}>Today's quote: "Small steps lead to big results."</Text>
+            <Heading pt={4} pb={2} as="h1" textAlign={"center"}><Text>My Productivity Dashboard</Text></Heading>
+            <Text pb={4} fontSize={"lg"} textAlign={"center"}>Today's quote: "Small steps lead to big results."</Text>
           </header>
           <Divider />
         </Box>
@@ -22,13 +22,13 @@ export default function App() {
           <nav>
             <Box display="flex" flexDirection="row" w="100%" justifyContent="start" bg="gray.100">
               <Box p={4}>
-                <Button colorScheme="blue" onClick={() => setActiveTab('tasks')}>Tasks</Button>
+                <Button colorScheme="teal" onClick={() => setActiveTab('tasks')}>Tasks</Button>
               </Box>
               <Box p={4}>
-                <Button colorScheme="blue" onClick={() => setActiveTab('habits')}>Habits</Button>
+                <Button colorScheme="teal" onClick={() => setActiveTab('habits')}>Habits</Button>
               </Box>
               <Box p={4}>
-                <Button colorScheme="blue" onClick={() => setActiveTab('mood')}>Mood</Button>
+                <Button colorScheme="teal" onClick={() => setActiveTab('mood')}>Mood</Button>
               </Box>
             </Box>
           </nav>
