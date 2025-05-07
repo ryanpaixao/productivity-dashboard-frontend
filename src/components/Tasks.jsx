@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-
-const savedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+import { Button, Box, Divider, Heading, Text } from '@chakra-ui/react';
 
 export default function Tasks() {
+  const savedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
   const [tasks, setTasks] = useState(savedTasks);
   const [newTask, setNewTask] = useState('');
 

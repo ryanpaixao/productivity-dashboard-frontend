@@ -1,14 +1,13 @@
-import { useState } from 'react';
-
-const defaultHabits = [
-   { id: 1, name: 'Exercise', checked: false },
-   { id: 2, name: 'Read', checked: false },
-   { id: 3, name: 'Meditate', checked: false },
-];
+import { useState, useEffect } from 'react';
 
 export default function Habits() {
-   const [habits, setHabits] = useState(defaultHabits);
+   const savedHabits = JSON.parse(localStorage.getItem('habits')) || [];
+   const [habits, setHabits] = useState(savedHabits);
    const [newHabit, setNewHabit] = useState('');
+
+   useEffect(() => {
+      localStorage.setItem('habits', JSON.stringify(habits));
+   }, [habits]);
 
    const addHabit = () => {
       if (newHabit.trim()) {
