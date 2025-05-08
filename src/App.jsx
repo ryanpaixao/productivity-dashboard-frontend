@@ -22,13 +22,13 @@ export default function App() {
           <nav>
             <Box display="flex" flexDirection="row" w="100%" justifyContent="start" bg="gray.100">
               <Box p={4}>
-                <Button colorScheme="teal" onClick={() => setActiveTab('tasks')}>Tasks</Button>
+                <Button isActive={activeTab === 'tasks'} colorScheme="teal" onClick={() => setActiveTab('tasks')}>Tasks</Button>
               </Box>
               <Box p={4}>
-                <Button colorScheme="teal" onClick={() => setActiveTab('habits')}>Habits</Button>
+                <Button isActive={activeTab === 'habits'} colorScheme="teal" onClick={() => setActiveTab('habits')}>Habits</Button>
               </Box>
               <Box p={4}>
-                <Button colorScheme="teal" onClick={() => setActiveTab('mood')}>Mood</Button>
+                <Button isActive={activeTab === 'mood'} colorScheme="teal" onClick={() => setActiveTab('mood')}>Mood</Button>
               </Box>
             </Box>
           </nav>

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FaSmile, FaFrown, FaMeh } from "react-icons/fa";
+import { Button, Box, Divider, Text } from '@chakra-ui/react';
 
 const moods = [
   { id: 1, label: "Happy", icon: <FaSmile />, checked: false },
@@ -11,21 +12,30 @@ export default function Mood() {
   const [selectedMood, setSelectedMood] = useState(null);
 
   return (
-    <div>
-      <h2>How are you feeling today?</h2>
-      <div className="mood-options">
+    <Box display={'flex'} flexDirection={'column'}>
+      <Box>
+        <Text fontSize={'xl'} mb={4}>How are you feeling today?</Text>
+      </Box>
+      <Divider />
+      <Box pt={4} pb={4} display={'flex'} justifyContent={'flex-start'}>
         {moods.map((mood) => (
-          <button 
+          <Button 
             key={mood.id}
+            mr={2}
             onClick={() => setSelectedMood(mood.label)}
-            className={selectedMood === mood.label ? 'selected' : ''}
+            isActive={selectedMood === mood.label}
+            colorScheme="teal"
+            display={'flex'}
+            flexDir={'row'}
+            justifyContent={'space-between'}
+            leftIcon={mood.icon}
           >
-            {mood.icon} {mood.label}
-          </button>
+            <Text>{mood.label}</Text>
+          </Button>
         ))}
-      </div>
-    {selectedMood && <p>You're feeling <strong>{selectedMood}</strong> today.</p>}
-    </div>
+      </Box>
+    {selectedMood && <Text>You're feeling <strong>{selectedMood}</strong> today.</Text>}
+    </Box>
   );
 }
 
