@@ -51,8 +51,8 @@ export default function Tasks() {
         <Divider />
         <UnorderedList>
           {tasks.map(task => (
-            <>
-              <ListItem display='flex' flexDirection={'row'} justifyContent={'space-between'} pt={2} pb={2} key={task.id}>
+            <ListItem display='flex' flexDirection={'column'} pt={2} key={task.id}>
+              <Box display='flex' flexDirection={'row'} justifyContent={'space-between'} pb={2}>
                 <Box display={'flex'} flexDirection={'row'}>
                   <input
                     type="checkbox"
@@ -64,9 +64,9 @@ export default function Tasks() {
                 <Box>
                   <Button ml={6} colorScheme="red" onClick={() => deleteTask(task.id)}>Delete</Button>
                 </Box>
-              </ListItem>
+              </Box>
               <Divider />
-            </>
+            </ListItem>
           ))}
         </UnorderedList>
       </Box>
