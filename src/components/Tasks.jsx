@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Box, Divider, ListItem, Text, UnorderedList } from '@chakra-ui/react';
+import { Button, Box, Checkbox, Divider, Input, ListItem, Text, UnorderedList } from '@chakra-ui/react';
 
 export default function Tasks() {
   const savedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
@@ -36,11 +36,11 @@ export default function Tasks() {
       </Box>
       <Box pt={4} pb={4} display={'flex'} justifyContent={'space-between'}>
         <Box>
-          <input
-            type="text"
+          <Input
             value={newTask}
             onChange={(e) => setNewTask(e.target.value)}
             placeholder="Add a new task"
+            colorScheme="teal"
           />
         </Box>
         <Box>
@@ -54,10 +54,10 @@ export default function Tasks() {
             <ListItem display='flex' flexDirection={'column'} pt={2} key={task.id}>
               <Box display='flex' flexDirection={'row'} justifyContent={'space-between'} pb={2}>
                 <Box display={'flex'} flexDirection={'row'}>
-                  <input
-                    type="checkbox"
-                    checked={task.completed}
+                  <Checkbox
+                    isChecked={task.completed}
                     onChange={() => toggleTask(task.id)}
+                    colorScheme="teal"
                   />
                   <Text p={2}>{task.text}</Text>
                 </Box>

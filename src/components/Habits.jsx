@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Button, Box, Divider, ListItem, Text, UnorderedList } from '@chakra-ui/react';
+import { Button, Box, Checkbox, Divider, Input, ListItem, Text, UnorderedList } from '@chakra-ui/react';
 
 export default function Habits() {
   const savedHabits = JSON.parse(localStorage.getItem('habits')) || [];
@@ -36,11 +36,11 @@ export default function Habits() {
       </Box>
       <Box pt={4} pb={4} display={'flex'} justifyContent={'space-between'}>
         <Box>
-          <input
-            type="text"
+          <Input
             value={newHabit}
             onChange={(e) => setNewHabit(e.target.value)}
             placeholder="Add a new habit"
+            colorScheme="teal"
           />
         </Box>
         <Box>
@@ -51,12 +51,12 @@ export default function Habits() {
         <Divider />
         <UnorderedList>
           {habits.map(habit => (
-            <>
-              <ListItem display='flex' flexDirection={'row'} justifyContent={'space-between'} pt={2} pb={2} key={habit.id}>
+            <ListItem display='flex' flexDirection={'column'} justifyContent={'space-between'} pt={2} pb={2} key={habit.id}>
+              <Box display='flex' flexDirection={'row'} justifyContent={'space-between'} pb={2}>
                 <Box display={'flex'} flexDirection={'row'}>
-                  <input
-                    type="checkbox"
-                    checked={habit.checked}
+                  <Checkbox
+                    colorScheme="teal"
+                    isChecked={habit.checked}
                     onChange={() => toggleHabit(habit.id)}
                   />
                   <Text p={2}>{habit.name}</Text>
@@ -64,9 +64,9 @@ export default function Habits() {
                 <Box>
                   <Button ml={6} colorScheme="red" onClick={() => deleteHabit(habit.id)}>Delete</Button>
                 </Box>
-              </ListItem>
+              </Box>
               <Divider />
-            </>
+            </ListItem>
           ))}
         </UnorderedList>
       </Box>
