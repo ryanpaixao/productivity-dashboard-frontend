@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Box, Checkbox, Divider, Input, ListItem, Text, UnorderedList } from '@chakra-ui/react';
+import { Button, Box, Checkbox, Divider, Flex, Input, ListItem, Text, UnorderedList } from '@chakra-ui/react';
 
 export default function Tasks() {
   const savedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
@@ -30,11 +30,17 @@ export default function Tasks() {
   };
 
   return (
-    <Box display={'flex'} flexDirection={'column'}>
+    <Flex
+      flexDirection={'column'}
+      p={4}
+      borderRadius={'md'}
+      bg='gray.100' // light mode color
+      _dark={{ bg: 'gray.700'}} // dark mode override
+    >
       <Box>
         <Text fontSize={'xl'}>Task List</Text>
       </Box>
-      <Box pt={4} pb={4} display={'flex'} justifyContent={'space-between'}>
+      <Flex pt={4} pb={4} justifyContent={'space-between'}>
         <Box>
           <Input
             value={newTask}
@@ -46,30 +52,30 @@ export default function Tasks() {
         <Box>
           <Button colorScheme="teal" onClick={addTask}>Add Task</Button>
         </Box>
-      </Box>
-      <Box display='flex' flexDirection={'column'} pb={4}>
+      </Flex>
+      <Flex flexDirection={'column'} pb={4}>
         <Divider />
         <UnorderedList>
           {tasks.map(task => (
             <ListItem display='flex' flexDirection={'column'} pt={2} key={task.id}>
-              <Box display='flex' flexDirection={'row'} justifyContent={'space-between'} pb={2}>
-                <Box display={'flex'} flexDirection={'row'}>
+              <Flex flexDirection={'row'} justifyContent={'space-between'} pb={2}>
+                <Flex flexDirection={'row'}>
                   <Checkbox
                     isChecked={task.completed}
                     onChange={() => toggleTask(task.id)}
                     colorScheme="teal"
                   />
                   <Text p={2}>{task.text}</Text>
-                </Box>
+                </Flex>
                 <Box>
                   <Button ml={6} colorScheme="red" onClick={() => deleteTask(task.id)}>Delete</Button>
                 </Box>
-              </Box>
+              </Flex>
               <Divider />
             </ListItem>
           ))}
         </UnorderedList>
-      </Box>
-    </Box>
+      </Flex>
+    </Flex>
   );
 }
