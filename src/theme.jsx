@@ -12,6 +12,13 @@ const theme = extendTheme({
       100: '#f7fafc',
     },
   },
+  styles: {
+    global: (props) => ({
+      body: {
+        transition: 'background-color 0.2s, color 0.2s',
+      },
+    }),
+  },
 });
 
 export default theme;

@@ -4,6 +4,7 @@ import { Button, Box, Divider, Flex, Heading, Text } from '@chakra-ui/react';
 import Tasks from './components/Tasks';
 import Habits from './components/Habits';
 import Mood from './components/Mood';
+import { ThemeToggle } from './components/ThemeToggle';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('tasks')
@@ -18,14 +19,17 @@ export default function App() {
           </header>
         </Flex>
         <Divider />
-        <Flex w="100%" flexDirection="column">
-          <nav>
+        <Flex
+          w="100%"
+          flexDirection="column"
+          bg='gray.100' // light mode color
+          _dark={{ bg: 'gray.700'}} // dark mode override
+        >
+          <Flex flexDir={'row'} justifyContent="center">
             <Flex
               flexDirection="row"
               w="100%"
               justifyContent="start"
-              bg='gray.100' // light mode color
-              _dark={{ bg: 'gray.700'}} // dark mode override
             >
               <Box p={4}>
                 <Button isActive={activeTab === 'tasks'} colorScheme="teal" onClick={() => setActiveTab('tasks')}>Tasks</Button>
@@ -37,7 +41,10 @@ export default function App() {
                 <Button isActive={activeTab === 'mood'} colorScheme="teal" onClick={() => setActiveTab('mood')}>Mood</Button>
               </Box>
             </Flex>
-          </nav>
+            <Flex>
+              <ThemeToggle />
+            </Flex>
+          </Flex>
           <Divider />
         </Flex>
         <Flex w="100%" flexDirection="column" p={4}>
