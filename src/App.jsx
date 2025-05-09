@@ -1,26 +1,36 @@
 import { useState } from 'react';
-import { Button, Box, Divider, Heading, Text } from '@chakra-ui/react';
+import { Button, Box, Divider, Flex, Heading, Text } from '@chakra-ui/react';
 
 import Tasks from './components/Tasks';
 import Habits from './components/Habits';
 import Mood from './components/Mood';
+import { ThemeToggle } from './components/ThemeToggle';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('tasks')
 
   return (
     <>
-      <Box display="flex" w="100vw" flexDirection="column" alignContent={"stretch"}>
-        <Box pr={4} pl={4} display="flex" flexDirection="column" w="100%">
+      <Flex w="100vw" flexDirection="column" alignContent={"stretch"}>
+        <Flex pr={4} pl={4} flexDirection="column" w="100%">
           <header>
             <Heading pt={4} pb={2} as="h1" textAlign={"center"}><Text>My Productivity Dashboard</Text></Heading>
             <Text pb={4} fontSize={"lg"} textAlign={"center"}>Today's quote: "Small steps lead to big results."</Text>
           </header>
-          <Divider />
-        </Box>
-        <Box display="flex" w="100%" flexDirection="column">
-          <nav>
-            <Box display="flex" flexDirection="row" w="100%" justifyContent="start" bg="gray.100">
+        </Flex>
+        <Divider />
+        <Flex
+          w="100%"
+          flexDirection="column"
+          bg='gray.100' // light mode color
+          _dark={{ bg: 'gray.700'}} // dark mode override
+        >
+          <Flex flexDir={'row'} justifyContent="center">
+            <Flex
+              flexDirection="row"
+              w="100%"
+              justifyContent="start"
+            >
               <Box p={4}>
                 <Button isActive={activeTab === 'tasks'} colorScheme="teal" onClick={() => setActiveTab('tasks')}>Tasks</Button>
               </Box>
@@ -30,18 +40,21 @@ export default function App() {
               <Box p={4}>
                 <Button isActive={activeTab === 'mood'} colorScheme="teal" onClick={() => setActiveTab('mood')}>Mood</Button>
               </Box>
-            </Box>
-          </nav>
+            </Flex>
+            <Flex>
+              <ThemeToggle />
+            </Flex>
+          </Flex>
           <Divider />
-        </Box>
-        <Box display="flex" w="100%" flexDirection="column" p={4}>
+        </Flex>
+        <Flex w="100%" flexDirection="column" p={4}>
           <main>
             {activeTab === 'tasks' && <Tasks />}
             {activeTab === 'habits' && <Habits />}
             {activeTab === 'mood' && <Mood />}
           </main>
-        </Box>
-      </Box>
+        </Flex>
+      </Flex>
     </>
   )
 }

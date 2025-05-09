@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Button, Box, Checkbox, Divider, Input, ListItem, Text, UnorderedList } from '@chakra-ui/react';
+import { Button, Box, Checkbox, Divider, Flex, Input, ListItem, Text, UnorderedList } from '@chakra-ui/react';
 
 export default function Habits() {
   const savedHabits = JSON.parse(localStorage.getItem('habits')) || [];
@@ -30,11 +30,17 @@ export default function Habits() {
   };
 
   return (
-    <Box display={'flex'} flexDirection={'column'}>
+    <Flex
+      flexDirection={'column'}
+      p={4}
+      borderRadius={'md'}
+      bg='gray.100' // light mode color
+      _dark={{ bg: 'gray.700'}} // dark mode override
+    >
       <Box>
         <Text fontSize={'xl'}>Habit Tracker</Text>
       </Box>
-      <Box pt={4} pb={4} display={'flex'} justifyContent={'space-between'}>
+      <Flex pt={4} pb={4} justifyContent={'space-between'}>
         <Box>
           <Input
             value={newHabit}
@@ -46,30 +52,30 @@ export default function Habits() {
         <Box>
           <Button colorScheme="teal" onClick={addHabit}>Add Habit</Button>
         </Box>
-      </Box>
-      <Box display='flex' flexDirection={'column'} pb={4}>
+      </Flex>
+      <Flex flexDirection={'column'} pb={4}>
         <Divider />
         <UnorderedList>
           {habits.map(habit => (
             <ListItem display='flex' flexDirection={'column'} justifyContent={'space-between'} pt={2} pb={2} key={habit.id}>
-              <Box display='flex' flexDirection={'row'} justifyContent={'space-between'} pb={2}>
-                <Box display={'flex'} flexDirection={'row'}>
+              <Flex flexDirection={'row'} justifyContent={'space-between'} pb={2}>
+                <Flex flexDirection={'row'}>
                   <Checkbox
                     colorScheme="teal"
                     isChecked={habit.checked}
                     onChange={() => toggleHabit(habit.id)}
                   />
                   <Text p={2}>{habit.name}</Text>
-                </Box>
+                </Flex>
                 <Box>
                   <Button ml={6} colorScheme="red" onClick={() => deleteHabit(habit.id)}>Delete</Button>
                 </Box>
-              </Box>
+              </Flex>
               <Divider />
             </ListItem>
           ))}
         </UnorderedList>
-      </Box>
-    </Box>
+      </Flex>
+    </Flex>
   );
 }

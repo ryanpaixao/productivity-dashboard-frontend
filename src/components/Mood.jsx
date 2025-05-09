@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FaSmile, FaFrown, FaMeh } from "react-icons/fa";
-import { Button, Box, Divider, Text } from '@chakra-ui/react';
+import { Button, Box, Divider, Flex, Text } from '@chakra-ui/react';
 
 const moods = [
   { id: 1, label: "Happy", icon: <FaSmile />, checked: false },
@@ -12,7 +12,13 @@ export default function Mood() {
   const [selectedMood, setSelectedMood] = useState(null);
 
   return (
-    <Box display={'flex'} flexDirection={'column'}>
+    <Flex
+      flexDirection={'column'}
+      p={4}
+      borderRadius={'md'}
+      bg='gray.100' // light mode color
+      _dark={{ bg: 'gray.700'}} // dark mode override
+    >
       <Box>
         <Text fontSize={'xl'} mb={4}>How are you feeling today?</Text>
       </Box>
@@ -35,7 +41,7 @@ export default function Mood() {
         ))}
       </Box>
     {selectedMood && <Text>You're feeling <strong>{selectedMood}</strong> today.</Text>}
-    </Box>
+    </Flex>
   );
 }
 
