@@ -4,6 +4,7 @@ import { Button, Box, Divider, Flex, Heading, Text } from '@chakra-ui/react';
 import Tasks from './components/Tasks';
 import Habits from './components/Habits';
 import Mood from './components/Mood';
+import Dashboard from './pages/Dashboard'
 import { ThemeToggle } from './components/ThemeToggle';
 
 export default function App() {
@@ -40,6 +41,9 @@ export default function App() {
               <Box p={4}>
                 <Button isActive={activeTab === 'mood'} colorScheme="teal" onClick={() => setActiveTab('mood')}>Mood</Button>
               </Box>
+              <Box p={4}>
+                <Button isActive={activeTab === 'trends'} colorScheme="teal" onClick={() => setActiveTab('trends')}>Trends</Button>
+              </Box>
             </Flex>
             <Flex>
               <ThemeToggle />
@@ -52,6 +56,7 @@ export default function App() {
             {activeTab === 'tasks' && <Tasks />}
             {activeTab === 'habits' && <Habits />}
             {activeTab === 'mood' && <Mood />}
+            {activeTab === 'trends' && <Dashboard />}
           </main>
         </Flex>
       </Flex>
