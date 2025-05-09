@@ -26,6 +26,10 @@ ChartJS.register(
 
 const dates = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
+// ChartJS handles undefined/NaN by not including that data in the display
+const extractMoodValues = (moodData = []) => moodData.map(mood => mood.rating);
+const extractHabitValues = (habitData = []) => habitData.map(habit => Number(habit.completed));
+
 export const TrendsChart = ({ moodData, habitData }) => {
   const { colorMode } = useColorMode();
 
@@ -36,11 +40,11 @@ export const TrendsChart = ({ moodData, habitData }) => {
   const [habitValues, setHabit] = useState([]);
 
   useEffect(() => {
-    setMood(moodData);
+    setMood(extractMoodValues(moodData));
   }, [moodData]);
 
   useEffect(() => {
-    setHabit(habitData);
+    setHabit(extractHabitValues(habitData));
   }, [habitData])
   
   const data = {
