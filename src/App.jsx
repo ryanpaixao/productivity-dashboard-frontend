@@ -4,6 +4,7 @@ import { Button, Box, Divider, Flex, Heading, Text } from '@chakra-ui/react';
 import Tasks from './components/Tasks';
 import Habits from './components/Habits';
 import Mood from './components/Mood';
+import { ThemeToggle } from './components/ThemeToggle';
 
 import Dashboard from './pages/Dashboard'
 import { ThemeToggle } from './components/ThemeToggle';
