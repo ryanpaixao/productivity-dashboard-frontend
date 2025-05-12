@@ -1,8 +1,8 @@
-import axios from 'axios';
+import API from "./axios";
 
-const API_URL = 'http://localhost:5000/api/tasks';
+const TASKS_PATH = '/tasks';
 
-export const getTasks = () => axios.get(API_URL);
-export const createTask = (task) => axios.post(API_URL, task);
-export const updateTask = (id, task) => axios.put(`${API_URL}/${id}`, task);
-export const deleteTask = (id) => axios.delete(`${API_URL}/${id}`);
+export const getTasks = () => API.get(TASKS_PATH);
+export const createTask = (task) => API.post(TASKS_PATH, task);
+export const updateTask = (id, task) => API.put(`${API_URL}/${id}`, task);
+export const deleteTask = (id) => API.delete(`${API_URL}/${id}`);

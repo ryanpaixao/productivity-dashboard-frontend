@@ -1,8 +1,8 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API_URL = 'http://localhost:5000/api/habits';
+const HABITS_PATH = '/habits';
 
-export const getHabits = () => axios.get(API_URL);
-export const createHabit = (habit) => axios.post(API_URL, habit);
-export const updateHabit = (id, habit) => axios.put(`${API_URL}/${id}`, habit);
-export const deleteHabit = (id) => axios.delete(`${API_URL}/${id}`);
+export const getHabits = () => axios.get(HABITS_PATH);
+export const createHabit = (habit) => axios.post(HABITS_PATH, habit);
+export const updateHabit = (id, habit) => axios.put(`${HABITS_PATH}/${id}`, habit);
+export const deleteHabit = (id) => axios.delete(`${HABITS_PATH}/${id}`);
