@@ -1,4 +1,4 @@
-import API from "./axios";
+import API from "./axiosAPI";
 
 const TASKS_PATH = '/tasks';
 
