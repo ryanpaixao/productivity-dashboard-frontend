@@ -41,8 +41,9 @@ const TasksListContainer = ({ tasks }) => {
     mutationFn: deleteTask,
     onSuccess: () => {
       // Invalidate cache and refetch tasks after success
-      queryClient.invalidateQueries([TASK_QUERY_KEY]);
+      queryClient.invalidateQueries({ queryKey: [TASK_QUERY_KEY] });
     },
+    // TODO: Add error handling. toast popup
   });
 
   // Toggle Task mutation
@@ -64,12 +65,16 @@ const TasksListContainer = ({ tasks }) => {
       queryClient.setQueryData([TASK_QUERY_KEY], context.prevTasks); // Revert on fail
     },
     onSettled: () => {
-      queryClient.invalidateQueries(['tasks']); // Sync with server
+      queryClient.invalidateQueries([TASK_QUERY_KEY]); // Sync with server
     },
   });
 
   return (
-    <TasksList tasks={tasks} onDelete={deleteMutation.mutate} onToggle={toggleMutation.mutate} />
+    <TasksList
+      tasks={tasks}
+      onDelete={deleteMutation.mutate}
+      onToggle={toggleMutation.mutate}
+    />
   )
 };
 
@@ -85,7 +90,7 @@ const TasksPage = () => {
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
-  const userId = tasks.data?.[0]?.userId || '6820e188c8970fadd5b3d4ce';
+  const userId = tasks.data?.[0]?.userId || '6820e188c8970fadd5b3d4ce'; // TODO: update userId fetch. rm default Id
 
   return (
     <Flex

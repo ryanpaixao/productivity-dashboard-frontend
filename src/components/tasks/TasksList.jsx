@@ -8,7 +8,7 @@ const TasksList = ({ tasks = [], onDelete, onToggle }) => {
       <Divider />
       <UnorderedList>
         {tasks.map((task) => {
-          return <TasksListItem key={task._id} task={task} deleteTask={onDelete} toggleTask={onToggle} />
+          return <TasksListItem key={task._id} task={task} onDelete={onDelete} onToggle={onToggle} />
         })}
       </UnorderedList>
     </FormControl>
