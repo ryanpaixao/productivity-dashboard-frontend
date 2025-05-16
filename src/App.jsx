@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button, Box, Divider, Flex, Heading, Text } from '@chakra-ui/react';
 
-import Tasks from './components/Tasks';
+import Tasks from './pages/Tasks';
 import Habits from './components/Habits';
 import Mood from './components/Mood';
 import { ThemeToggle } from './components/ThemeToggle';
