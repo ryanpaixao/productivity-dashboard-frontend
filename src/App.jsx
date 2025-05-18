@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { Button, Box, Divider, Flex, Heading, Text } from '@chakra-ui/react';
 
-import Tasks from './components/Tasks';
+import Tasks from './pages/Tasks';
 import Habits from './components/Habits';
 import Mood from './components/Mood';
 import { ThemeToggle } from './components/ThemeToggle';
 import Dashboard from './pages/Dashboard'
+
+import Dashboard from './pages/Dashboard'
+import { ThemeToggle } from './components/ThemeToggle';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('tasks')
