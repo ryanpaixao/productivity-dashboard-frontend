@@ -12,7 +12,7 @@ const TaskInput = ({ setNewTask, isSubmitting }) => {
       return;
     }
 
-    setNewTask(taskTitle);
+    setNewTask(taskTitle.trim());
   };
 
   return (
@@ -20,7 +20,7 @@ const TaskInput = ({ setNewTask, isSubmitting }) => {
       <form onSubmit={handleSubmit}>
         <Stack spacing={4}>
           <FormControl>
-            <FormLabel htmlFor="task">Task Title</FormLabel>
+            <FormLabel htmlFor="task-input-field">Task Title</FormLabel>
             <Input
               type='text'
               value={taskTitle}
@@ -28,6 +28,7 @@ const TaskInput = ({ setNewTask, isSubmitting }) => {
               placeholder="Add a new task"
               colorScheme="teal"
               isDisabled={isSubmitting}
+              id='task-input-field'
             />
           </FormControl>
           <Flex direction={{ base: 'column', md: 'row' }} gap={3}>

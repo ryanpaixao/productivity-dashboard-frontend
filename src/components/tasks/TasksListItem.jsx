@@ -15,8 +15,9 @@ const TasksListItem = ({ task = {}, onDelete, onToggle }) => {
         <Stack flex='1' direction={'row'} gap={4} align='center'>
           <Checkbox
             isChecked={task.completed}
-            onChange={() => onToggle(task._id)}
+            onChange={() => onToggle({ taskId: task._id, completed: !task.completed })}
             colorScheme="teal"
+            id={`completed-checkbox-${task.title.replace(/\s+/g, '-').toLowerCase()}`}
           />
           <Text flex='1' textDecoration={task.completed ? 'line-through' : 'none'}>
             {task.title}

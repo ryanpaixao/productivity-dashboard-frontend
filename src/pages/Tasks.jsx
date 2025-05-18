@@ -2,7 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Box, Flex, Text } from '@chakra-ui/react';
 
 // API calls
-import { getTasks, createTask, deleteTask, updateTask } from '../api/tasksAPI';
+import { getTasks, createTask, deleteTask, toggleTask } from '../api/tasksAPI';
 
 // Task components
 import TasksList from '../components/tasks/TasksList';
@@ -19,6 +19,7 @@ const TaskInputContainer = ({ userId }) => {
     onSuccess: () => {
       // Invalidate cache and refetch tasks after success
       queryClient.invalidateQueries({ queryKey: [TASK_QUERY_KEY] });
+      // TODO: clear input after success
     },
   });
 
@@ -48,24 +49,29 @@ const TasksListContainer = ({ tasks }) => {
 
   // Toggle Task mutation
   const toggleMutation = useMutation({
-    mutationFn: updateTask,
-    onMutate: async (taskId) => {
-      await queryClient.cancelQueries([TASK_QUERY_KEY]); // Cancel ongoing fetches
-      const prevTasks = queryClient.getQueryData([TASK_QUERY_KEY]); // Snapshot
+    mutationFn: ({ taskId, completed }) => toggleTask(taskId, completed),
+    onMutate: async ({ taskId, completed }) => {
+      // Cancel ongoing queries
+      await queryClient.cancelQueries([TASK_QUERY_KEY]);
+      // Snapshot previous state
+      const prevTasks = queryClient.getQueryData([TASK_QUERY_KEY]);
 
       // Optimistically update UI
-      queryClient.setQueryData([TASK_QUERY_KEY], (old) =>
-        old.map((task) =>
-          task._id === taskId ? { ...task, completed: !task.completed } : task
-        )
-      );
-      return { prevTasks }; // Rollback on error
+      queryClient.setQueryData([TASK_QUERY_KEY], (oldData) => {
+        const updatedData = oldData?.data?.map((task) => task._id === taskId ? { ...task, completed } : task);
+        return { ...oldData, data: updatedData, }
+      });
+      return { prevTasks }; // Return the snapshot for error rollback
     },
-    onError: (err, taskId, context) => {
-      queryClient.setQueryData([TASK_QUERY_KEY], context.prevTasks); // Revert on fail
+    onError: (err, { taskId }, context) => {
+      // Rollback if error occurs
+      if (context?.prevTasks) {
+        queryClient.setQueryData([TASK_QUERY_KEY], context.prevTasks);
+      }
     },
     onSettled: () => {
-      queryClient.invalidateQueries([TASK_QUERY_KEY]); // Sync with server
+      // Sync with server
+      queryClient.invalidateQueries([TASK_QUERY_KEY]);
     },
   });
 
