@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button, Box, Divider, Flex, Heading, Text } from '@chakra-ui/react';
 
 import Tasks from './pages/Tasks';
@@ -8,7 +8,12 @@ import { ThemeToggle } from './components/ThemeToggle';
 import Dashboard from './pages/Dashboard'
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('tasks')
+  const savedTab = localStorage.getItem('activeTab');
+  const [activeTab, setActiveTab] = useState(savedTab || 'tasks');
+  
+  useEffect(() => {
+    localStorage.setItem('activeTab', activeTab);
+  }, [activeTab]);
 
   return (
     <>
