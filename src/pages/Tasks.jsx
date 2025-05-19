@@ -4,9 +4,9 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 // API calls
 import { getTasks, createTask, deleteTask, toggleTask } from '../api/tasksAPI';
 
-// Task components
-import TasksList from '../components/tasks/TasksList';
-import TaskInput from '../components/tasks/TaskInput';
+// Common Components
+import CommonList from '../components/common/CommonList';
+import CommonInput from '../components/common/CommonInput';
 
 const TASK_QUERY_KEY = 'tasks';
 
@@ -15,23 +15,27 @@ const TaskInputContainer = ({ userId }) => {
 
   // Add task mutation
   const mutation = useMutation({
-    mutationFn: createTask,
-    onSuccess: () => {
+    mutationFn: ({ taskPayload }) => createTask(taskPayload),
+    onSuccess: (_, params, context) => {
       // Invalidate cache and refetch tasks after success
       queryClient.invalidateQueries({ queryKey: [TASK_QUERY_KEY] });
-      // TODO: clear input after success
+      // Clear text Field
+      params.resetTitle();
     },
   });
 
-  const setNewTask = (title) => {
+  const setNewTask = ({ title, resetTitle }) => {
     mutation.mutate({
-      userId, // TODO: auto inject userId
-      title,
-      completed: false,
+      taskPayload: {
+        userId, // TODO: auto inject userId
+        title,
+        completed: false,
+      },
+      resetTitle,
     })
   };
 
-  return <TaskInput setNewTask={setNewTask} isSubmitting={mutation.isPending} />
+  return <CommonInput itemType='task' setNewItem={setNewTask} isSubmitting={mutation.isPending} />
 };
 
 const TasksListContainer = ({ tasks }) => {
@@ -49,8 +53,8 @@ const TasksListContainer = ({ tasks }) => {
 
   // Toggle Task mutation
   const toggleMutation = useMutation({
-    mutationFn: ({ taskId, completed }) => toggleTask(taskId, completed),
-    onMutate: async ({ taskId, completed }) => {
+    mutationFn: ({ itemId, completed }) => toggleTask(itemId, completed),
+    onMutate: async ({ itemId, completed }) => {
       // Cancel ongoing queries
       await queryClient.cancelQueries([TASK_QUERY_KEY]);
       // Snapshot previous state
@@ -58,12 +62,12 @@ const TasksListContainer = ({ tasks }) => {
 
       // Optimistically update UI
       queryClient.setQueryData([TASK_QUERY_KEY], (oldData) => {
-        const updatedData = oldData?.data?.map((task) => task._id === taskId ? { ...task, completed } : task);
+        const updatedData = oldData?.data?.map((task) => task._id === itemId ? { ...task, completed } : task);
         return { ...oldData, data: updatedData, }
       });
       return { prevTasks }; // Return the snapshot for error rollback
     },
-    onError: (err, { taskId }, context) => {
+    onError: (err, { itemId }, context) => {
       // Rollback if error occurs
       if (context?.prevTasks) {
         queryClient.setQueryData([TASK_QUERY_KEY], context.prevTasks);
@@ -76,8 +80,9 @@ const TasksListContainer = ({ tasks }) => {
   });
 
   return (
-    <TasksList
-      tasks={tasks}
+    <CommonList
+      items={tasks}
+      itemType='task'
       onDelete={deleteMutation.mutate}
       onToggle={toggleMutation.mutate}
     />
