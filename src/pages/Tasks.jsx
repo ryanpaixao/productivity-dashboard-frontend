@@ -5,7 +5,7 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 import { getTasks, createTask, deleteTask, toggleTask } from '../api/tasksAPI';
 
 // Common Components
-import TasksList from '../components/tasks/TasksList';
+import CommonList from '../components/common/CommonList';
 import CommonInput from '../components/common/CommonInput';
 
 const TASK_QUERY_KEY = 'tasks';
@@ -53,8 +53,8 @@ const TasksListContainer = ({ tasks }) => {
 
   // Toggle Task mutation
   const toggleMutation = useMutation({
-    mutationFn: ({ taskId, completed }) => toggleTask(taskId, completed),
-    onMutate: async ({ taskId, completed }) => {
+    mutationFn: ({ itemId, completed }) => toggleTask(itemId, completed),
+    onMutate: async ({ itemId, completed }) => {
       // Cancel ongoing queries
       await queryClient.cancelQueries([TASK_QUERY_KEY]);
       // Snapshot previous state
@@ -62,12 +62,12 @@ const TasksListContainer = ({ tasks }) => {
 
       // Optimistically update UI
       queryClient.setQueryData([TASK_QUERY_KEY], (oldData) => {
-        const updatedData = oldData?.data?.map((task) => task._id === taskId ? { ...task, completed } : task);
+        const updatedData = oldData?.data?.map((task) => task._id === itemId ? { ...task, completed } : task);
         return { ...oldData, data: updatedData, }
       });
       return { prevTasks }; // Return the snapshot for error rollback
     },
-    onError: (err, { taskId }, context) => {
+    onError: (err, { itemId }, context) => {
       // Rollback if error occurs
       if (context?.prevTasks) {
         queryClient.setQueryData([TASK_QUERY_KEY], context.prevTasks);
@@ -80,8 +80,9 @@ const TasksListContainer = ({ tasks }) => {
   });
 
   return (
-    <TasksList
-      tasks={tasks}
+    <CommonList
+      items={tasks}
+      itemType='task'
       onDelete={deleteMutation.mutate}
       onToggle={toggleMutation.mutate}
     />
