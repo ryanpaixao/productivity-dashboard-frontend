@@ -7,9 +7,6 @@ import Mood from './components/Mood';
 import { ThemeToggle } from './components/ThemeToggle';
 import Dashboard from './pages/Dashboard'
 
-import Dashboard from './pages/Dashboard'
-import { ThemeToggle } from './components/ThemeToggle';
-
 export default function App() {
   const [activeTab, setActiveTab] = useState('tasks')
 
