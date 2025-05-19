@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { FaSmile, FaFrown, FaMeh } from "react-icons/fa";
+import { FaAngry, FaGrin, FaFrown, FaMeh, FaSmile } from "react-icons/fa";
 import { Button, Box, Divider, Flex, Text } from '@chakra-ui/react';
 
 const moods = [
-  { id: 1, label: "Happy", icon: <FaSmile />, checked: false },
-  { id: 2, label: "Neutral", icon: <FaMeh />, checked: false },
-  { id: 3, label: "Sad", icon: <FaFrown />, checked: false },
+  { id: 1, label: "Excited", icon: <FaGrin />, checked: false },
+  { id: 2, label: "Happy", icon: <FaSmile />, checked: false },
+  { id: 3, label: "Neutral", icon: <FaMeh />, checked: false },
+  { id: 4, label: "Sad", icon: <FaFrown />, checked: false },
+  { id: 5, label: "Angry", icon: <FaAngry />, checked: false },
 ];
 
 export default function Mood() {
