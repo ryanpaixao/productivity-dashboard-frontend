@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FaAngry, FaGrin, FaFrown, FaMeh, FaSmile } from "react-icons/fa";
-import { Button, Box, Divider, Flex, Text } from '@chakra-ui/react';
+import { Button, Box, Divider, Flex, Text, useBreakpointValue } from '@chakra-ui/react';
 
 const moods = [
   { id: 1, label: "Excited", icon: <FaGrin />, checked: false },
@@ -12,6 +12,7 @@ const moods = [
 
 export default function Mood() {
   const [selectedMood, setSelectedMood] = useState(null);
+  const direction = useBreakpointValue({ base: 'column', md: 'row' });
 
   return (
     <Flex
@@ -24,8 +25,13 @@ export default function Mood() {
       <Box>
         <Text fontSize={'xl'} mb={4}>How are you feeling today?</Text>
       </Box>
-      <Divider />
-      <Box pt={4} pb={4} display={'flex'} justifyContent={'flex-start'}>
+      <Divider mb={4} />
+      <Flex
+        direction={direction}
+        gap={2}
+        width={'100%'}
+        align={'stretch'}
+      >
         {moods.map((mood) => (
           <Button 
             key={mood.id}
@@ -41,7 +47,7 @@ export default function Mood() {
             <Text>{mood.label}</Text>
           </Button>
         ))}
-      </Box>
+      </Flex>
     {selectedMood && <Text>You're feeling <strong>{selectedMood}</strong> today.</Text>}
     </Flex>
   );
