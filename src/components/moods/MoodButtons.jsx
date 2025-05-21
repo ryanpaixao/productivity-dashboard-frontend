@@ -1,14 +1,7 @@
 import { useState } from 'react';
 import { Button, Flex, Text, useBreakpointValue } from '@chakra-ui/react';
-import { FaAngry, FaGrin, FaFrown, FaMeh, FaSmile } from "react-icons/fa";
 
-const moods = [
-  { id: 1, label: "Angry", icon: <FaAngry />, checked: false },
-  { id: 2, label: "Sad", icon: <FaFrown />, checked: false },
-  { id: 3, label: "Neutral", icon: <FaMeh />, checked: false },
-  { id: 4, label: "Happy", icon: <FaSmile />, checked: false },  
-  { id: 5, label: "Excited", icon: <FaGrin />, checked: false },
-];
+import MoodIcons from './MoodIcons';
 
 const MoodButtons = ({ onMoodSelection }) => {
   const [selectedMood, setSelectedMood] = useState(null);
@@ -23,10 +16,11 @@ const MoodButtons = ({ onMoodSelection }) => {
     <Flex
       direction={direction}
       gap={2}
+      mb={4}
       width={'100%'}
       align={'stretch'}
     >
-      {moods.map((mood) => (
+      {MoodIcons.map((mood) => (
         <Button 
           key={mood.id}
           mr={2}
