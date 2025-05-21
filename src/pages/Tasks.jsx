@@ -8,6 +8,8 @@ import { getTasks, createTask, deleteTask, toggleTask } from '../api/tasksAPI';
 import CommonList from '../components/common/CommonList';
 import CommonInput from '../components/common/CommonInput';
 
+// Constants
+import ITEM_TYPES from '../constants/ITEM_TYPES';
 const TASK_QUERY_KEY = 'tasks';
 
 const TaskInputContainer = ({ userId }) => {
@@ -35,7 +37,7 @@ const TaskInputContainer = ({ userId }) => {
     })
   };
 
-  return <CommonInput itemType='task' setNewItem={setNewTask} isSubmitting={mutation.isPending} />
+  return <CommonInput itemType={ITEM_TYPES.TASK} setNewItem={setNewTask} isSubmitting={mutation.isPending} />
 };
 
 const TasksListContainer = ({ tasks }) => {
@@ -82,7 +84,7 @@ const TasksListContainer = ({ tasks }) => {
   return (
     <CommonList
       items={tasks}
-      itemType='task'
+      itemType={ITEM_TYPES.TASK}
       onDelete={deleteMutation.mutate}
       onToggle={toggleMutation.mutate}
     />

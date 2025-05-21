@@ -8,6 +8,8 @@ import { getHabits, createHabit, deleteHabit, toggleHabit } from '../api/habitsA
 import CommonList from '../components/common/CommonList';
 import CommonInput from '../components/common/CommonInput';
 
+// Constants
+import ITEM_TYPES from '../constants/ITEM_TYPES';
 const HABIT_QUERY_KEY = 'habits';
 
 const HabitInputContainer = ({ userId }) => {
@@ -35,7 +37,7 @@ const HabitInputContainer = ({ userId }) => {
     })
   };
 
-  return <CommonInput itemType='habit' setNewItem={setNewHabit} isSubmitting={mutation.isPending} />
+  return <CommonInput itemType={ITEM_TYPES.HABIT} setNewItem={setNewHabit} isSubmitting={mutation.isPending} />
 };
 
 const HabitsListContainer = ({ habits }) => {
@@ -82,7 +84,7 @@ const HabitsListContainer = ({ habits }) => {
   return (
     <CommonList
       items={habits}
-      itemType='habit'
+      itemType={ITEM_TYPES.HABIT}
       onDelete={deleteMutation.mutate}
       onToggle={toggleMutation.mutate}
     />
