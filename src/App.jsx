@@ -1,14 +1,19 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button, Box, Divider, Flex, Heading, Text } from '@chakra-ui/react';
 
 import Tasks from './pages/Tasks';
 import Habits from './pages/Habits';
-import Mood from './components/Mood';
+import Moods from './pages/Moods';
 import { ThemeToggle } from './components/ThemeToggle';
 import Dashboard from './pages/Dashboard'
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('tasks')
+  const savedTab = localStorage.getItem('activeTab');
+  const [activeTab, setActiveTab] = useState(savedTab || 'tasks');
+  
+  useEffect(() => {
+    localStorage.setItem('activeTab', activeTab);
+  }, [activeTab]);
 
   return (
     <>
@@ -39,7 +44,7 @@ export default function App() {
                 <Button isActive={activeTab === 'habits'} colorScheme="teal" onClick={() => setActiveTab('habits')}>Habits</Button>
               </Box>
               <Box p={4}>
-                <Button isActive={activeTab === 'mood'} colorScheme="teal" onClick={() => setActiveTab('mood')}>Mood</Button>
+                <Button isActive={activeTab === 'moods'} colorScheme="teal" onClick={() => setActiveTab('moods')}>Mood</Button>
               </Box>
               <Box p={4}>
                 <Button isActive={activeTab === 'trends'} colorScheme="teal" onClick={() => setActiveTab('trends')}>Trends</Button>
@@ -55,7 +60,7 @@ export default function App() {
           <main>
             {activeTab === 'tasks' && <Tasks />}
             {activeTab === 'habits' && <Habits />}
-            {activeTab === 'mood' && <Mood />}
+            {activeTab === 'moods' && <Moods />}
             {activeTab === 'trends' && <Dashboard />}
           </main>
         </Flex>
