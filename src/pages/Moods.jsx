@@ -5,7 +5,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getMoods, createMood } from "../api/moodsAPI";
 
 // Components
-import MoodButtons from "../components/moods/moodButtons";
+import MoodButtons from "../components/moods/MoodButtons";
 
 const MOOD_QUERY_KEY = 'moods';
 
