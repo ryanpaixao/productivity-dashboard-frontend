@@ -24,31 +24,20 @@ ChartJS.register(
   Legend
 );
 
-const dates = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
 // ChartJS handles undefined/NaN by not including that data in the display
 const extractMoodValues = (moodData = []) => moodData.map(mood => mood.rating);
-const extractHabitValues = (habitData = []) => habitData.map(habit => Number(habit.completed));
+const extractMoodDates = (moodData = []) => moodData.map(mood => mood.creationDateTime);
 
-export const TrendsChart = ({ moodData, habitData }) => {
+export const TrendsChart = ({ moodData }) => {
   const { colorMode } = useColorMode();
-
-  // Sample data structure. (Replace with actual data in future)
-  // const moodValues = [3, 4, 2, 5, 4, 3, 5]; // 1-5 scale
-  // const habitValues = [1, 1, 0, 1, 1, 0, 1]; // 0 or 1 (done/not done)
   const [moodValues, setMood] = useState([]);
-  const [habitValues, setHabit] = useState([]);
 
   useEffect(() => {
     setMood(extractMoodValues(moodData));
   }, [moodData]);
-
-  useEffect(() => {
-    setHabit(extractHabitValues(habitData));
-  }, [habitData])
   
   const data = {
-    labels: dates,
+    labels: extractMoodDates(moodData),
     datasets: [
       {
         label: 'Mood (1-5)',
@@ -58,14 +47,14 @@ export const TrendsChart = ({ moodData, habitData }) => {
         tension: 0.3,
         yAxisID: 'y',
       },
-      {
-        label: 'Habit Completion',
-        data: habitValues,
-        borderColor: 'rgba(153, 102, 255, 1)',
-        backgroundColor: 'rgba(153, 102, 255, 0.2)',
-        tension: 0.3,
-        yAxisID: 'y1'
-      },
+      // {
+      //   label: 'Habit Completion',
+      //   data: habitValues,
+      //   borderColor: 'rgba(153, 102, 255, 1)',
+      //   backgroundColor: 'rgba(153, 102, 255, 0.2)',
+      //   tension: 0.3,
+      //   yAxisID: 'y1'
+      // },
     ],
   };
 
@@ -88,7 +77,7 @@ export const TrendsChart = ({ moodData, habitData }) => {
         type: 'linear',
         display: true,
         position: 'left',
-        min: 0,
+        min: 1,
         max: 5,
         grid: {
           color: colorMode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
@@ -97,16 +86,16 @@ export const TrendsChart = ({ moodData, habitData }) => {
           color: colorMode === 'dark' ? 'white' : 'gray.800',
         },
       },
-      y1: {
-        type: 'linear',
-        display: true,
-        position: 'right',
-        min: 0,
-        max: 1,
-        grid: {
-          drawOnChartArea: false,
-        },
-      },
+      // y1: {
+      //   type: 'linear',
+      //   display: true,
+      //   position: 'right',
+      //   min: 0,
+      //   max: 1,
+      //   grid: {
+      //     drawOnChartArea: false,
+      //   },
+      // },
     },
   };
 
