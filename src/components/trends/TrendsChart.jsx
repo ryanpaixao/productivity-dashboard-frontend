@@ -26,7 +26,7 @@ ChartJS.register(
 
 // ChartJS handles undefined/NaN by not including that data in the display
 const extractMoodValues = (moodData = []) => moodData.map(mood => mood.rating);
-const extractMoodDates = (moodData = []) => moodData.map(mood => mood.creationDateTime);
+const extractMoodDates = (moodData = []) => moodData.map(mood => mood.createdAt);
 
 export const TrendsChart = ({ moodData }) => {
   const { colorMode } = useColorMode();
