@@ -1,26 +1,26 @@
+// import { useEffect, useState } from 'react';
 import { Box } from '@chakra-ui/react';
 
-// API calls
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getMoods } from '../api/moodsAPI';
+import MoodChartContainer from '../components/trends/MoodChartContainer';
+// import TimeFrameSelector from '../components/trends/TimeFrameSelector'; // TODO: Add TimeFrame Selector
 
-import { TrendsChart } from '../components/trends/TrendsChart';
+// Constants
+// import DATE_GRANULARITY from '../constants/DATE_GRANULARITY';
 
-const TRENDS_MOODS_QUERY_KEY = 'trendsMoods';
+const Trends = () => {
+  // const savedTimeFrame = localStorage.getItem('activeMoodTimeFrame');
+  // const [timeFrame, setTimeFrame] = useState(savedTimeFrame || DATE_GRANULARITY.DAILY);
 
-export default function Trends() {
-  const {
-    data: moods,
-    isLoading,
-    error
-  } = useQuery({
-    queryKey: [TRENDS_MOODS_QUERY_KEY], // Unique cache key
-    queryFn: getMoods, // Calls Axios function
-  });
+  // useEffect(() => {
+  //   localStorage.setItem('activeMoodTimeFrame', timeFrame);
+  // }, [timeFrame]);
 
   return (
     <Box>
-      <TrendsChart moodData={moods?.data} />
+      {/* <TimeFrameSelector timeFrame={timeFrame} setTimeFrame={setTimeFrame} /> */}
+      <MoodChartContainer/>
     </Box>
   );
 };
+
+export default Trends;
