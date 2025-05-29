@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { Box, Button, Flex, FormControl, FormLabel, Input, Stack, useToast } from '@chakra-ui/react';
 
+import { capitalizeFirst } from '../../utils/capitalizeFirstLetter';
+
 const CommonInput = ({ setNewItem, isSubmitting, itemType = 'task' }) => {
   const [title, updateTitle] = useState('');
   const toast = useToast();
-  const capitalizedItemType = itemType.charAt(0).toUpperCase() + itemType.slice(1);
+  const capitalizedItemType = capitalizeFirst(itemType);
 
   const resetTitle = () => updateTitle('');
   const handleSubmit = (e) => {
