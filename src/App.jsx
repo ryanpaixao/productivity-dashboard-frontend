@@ -1,6 +1,6 @@
 import { Divider, Flex, Heading, Text } from '@chakra-ui/react';
 
-import NavigationTab from './components/NavigationTab';
+import PageContainerWNavigation from './pages/PageContainerWNavigation';
 
 export default function App() {
   return (
@@ -13,7 +13,7 @@ export default function App() {
           </header>
         </Flex>
         <Divider />
-        <NavigationTab />
+        <PageContainerWNavigation />
       </Flex>
     </>
   )
