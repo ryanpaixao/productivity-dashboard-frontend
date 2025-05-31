@@ -1,12 +1,26 @@
+// import { useEffect, useState } from 'react';
 import { Box } from '@chakra-ui/react';
 
-import { TrendsChart } from '../components/TrendsChart';
-import { mockMoodData, mockHabitData } from '../demo-data/mood-habit-demo-data'; // TODO: Replace me with real data in future.
+import MoodChartContainer from '../components/trends/MoodChartContainer';
+// import TimeFrameSelector from '../components/trends/TimeFrameSelector'; // TODO: Add TimeFrame Selector
 
-export default function Trends() {
+// Constants
+// import DATE_GRANULARITY from '../constants/DATE_GRANULARITY';
+
+const Trends = () => {
+  // const savedTimeFrame = localStorage.getItem('activeMoodTimeFrame');
+  // const [timeFrame, setTimeFrame] = useState(savedTimeFrame || DATE_GRANULARITY.DAILY);
+
+  // useEffect(() => {
+  //   localStorage.setItem('activeMoodTimeFrame', timeFrame);
+  // }, [timeFrame]);
+
   return (
     <Box>
-      <TrendsChart moodData={mockMoodData} habitData={mockHabitData} />
+      {/* <TimeFrameSelector timeFrame={timeFrame} setTimeFrame={setTimeFrame} /> */}
+      <MoodChartContainer/>
     </Box>
   );
 };
+
+export default Trends;

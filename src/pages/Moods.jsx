@@ -27,7 +27,7 @@ const MoodButtonContainer = ({ userId }) => {
     mutation.mutate({
       userId,
       rating,
-      creationDateTime: new Date().toISOString()
+      createdAt: new Date().toISOString()
     })
   };
 

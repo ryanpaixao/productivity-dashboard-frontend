@@ -2,13 +2,13 @@ import { useState, useEffect } from 'react';
 import { Button, Box, Divider, Flex, Heading, Text } from '@chakra-ui/react';
 
 // Pages
-import Tasks from '../pages/Tasks';
-import Habits from '../pages/Habits';
-import Moods from '../pages/Moods';
-import Trends from '../pages/Trends';
+import Tasks from './Tasks';
+import Habits from './Habits';
+import Moods from './Moods';
+import Trends from './Trends';
 
 // Components
-import { ThemeToggle } from './ThemeToggle';
+import { ThemeToggle } from '../components/ThemeToggle';
 
 // Constants
 import PAGES from '../constants/PAGES';

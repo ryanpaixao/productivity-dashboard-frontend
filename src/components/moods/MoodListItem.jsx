@@ -6,7 +6,7 @@ import MoodIcons from './MoodIcons'
 const MoodListItem = ({ item = {}, onDelete }) => {
   const hoverBg = useColorModeValue('gray.50', 'gray.600');
   const mood = MoodIcons.find((obj) => obj.id === item.rating);
-  const date = new Date(item.creationDateTime);
+  const date = new Date(item.createdAt);
   const humanReadableDate = date.toLocaleString(); // Format as local date and time
 
   return (
