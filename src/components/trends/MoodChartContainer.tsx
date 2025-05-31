@@ -1,36 +1,14 @@
 import { useMemo } from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
+import 'chartjs-adapter-date-fns';
 
 import { useMoodTrendsData } from '../../hooks/useMoodTrendsData';
 import DATE_GRANULARITY from '../../constants/DATE_GRANULARITY';
-import { formatChartData } from './formatChartData';
+import { formatChartData } from './utils/formatChartData';
+import { getChartOptions } from './utils/getChartOptions';
 
 Chart.register(...registerables);
-
-const getChartOptions = (timeframe: string) => ({
-  responsive: true,
-  plugins: {
-    legend: {
-      position: "top" as const,
-    },
-  },
-  scales: {
-    x: {
-      type: 'category',
-      time: {
-        unit: timeframe === DATE_GRANULARITY.DAILY ? 'day' : timeframe === DATE_GRANULARITY.WEEKLY ? 'week' : timeframe === DATE_GRANULARITY.MONTHLY ? 'month' : 'year',
-      },
-    },
-    y: {
-      min: 1,
-      max: 5,
-      ticks: {
-        stepSize: 1,
-      }
-    },
-  },
-});
 
 const MoodChartContainer = () => {
   // Fetch data for different timeframes
@@ -53,7 +31,6 @@ const MoodChartContainer = () => {
     };
   }, [isLoading, dailyData, weeklyData, monthlyData, yearlyData]);
 
-  console.log('Chart Data:', chartData);
   if (isLoading) return <div>Loading...</div>;
   if (!chartData) return <div>No data available</div>;
 
