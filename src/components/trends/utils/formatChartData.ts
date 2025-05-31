@@ -1,4 +1,5 @@
-import DATE_GRANULARITY from '../../constants/DATE_GRANULARITY';
+import DATE_GRANULARITY from '../../../constants/DATE_GRANULARITY';
+import { getDateFromWeek } from './getDateFromWeek.js';
 
 const getColorForTimeframe = (timeframe: string) => {
   switch (timeframe) {
@@ -15,59 +16,74 @@ const getColorForTimeframe = (timeframe: string) => {
   }
 };
 
-// Function to format chart data
-const formatChartData = (data: any, timeframe: string) => {
-  console.log('Formatting data for timeframe:', timeframe, 'Data:', data);
-  if (!data) return null;
-  if (!Array.isArray(data) || data.length === 0) return null;
-  const ratings: number[] = [];
-  const labels: string[] = [];
+const transformData = (data: Array<any>, timeframe: string) => {
+  const transformedData: Array<{ x: Date; y: number }> = [];
 
   switch (timeframe) {
     case (DATE_GRANULARITY.DAILY):
       data.map((item: { averageRating: number; date: string }) => {
         if (item.averageRating) {
-          ratings.push(item.averageRating);
-          labels.push(item.date);
+          transformedData.push({
+            y: item.averageRating,
+            x: new Date(item.date)
+          });
         }
       });
       break;
     case (DATE_GRANULARITY.WEEKLY):
       data.map((item: { averageRating: number; year: string, week: string }) => {
         if (item.averageRating) {
-          ratings.push(item.averageRating);
-          labels.push(`${item.year}-${item.week}`);
+          transformedData.push({
+            y: item.averageRating,
+            x: getDateFromWeek(Number(item.year), Number(item.week))
+          });
         }
       });
       break;
     case (DATE_GRANULARITY.MONTHLY):
       data.map((item: { averageRating: number; year: string, month: string }) => {
         if (item.averageRating) {
-          ratings.push(item.averageRating);
-          labels.push(`${item.year}-${item.month}`);
+          transformedData.push({
+            y: item.averageRating,
+            x: new Date(Number(item.year), Number(item.month) - 1, 1)
+          });
         }
       });
       break;
     case (DATE_GRANULARITY.YEARLY):
       data.map((item: { averageRating: number; year: string }) => {
         if (item.averageRating) {
-          ratings.push(item.averageRating);
-          labels.push(item.year);
+          transformedData.push({
+            y: item.averageRating,
+            x: new Date(Number(item.year), 0, 1)
+          });
         }
       });
       break;
   }
-  console.log('Formatted ratings:', ratings, 'Labels:', labels);
+
+  return transformedData;
+};
+
+// Function to format chart data
+const formatChartData = (data: any, timeframe: string) => {
+  if (!data) return null;
+  if (!Array.isArray(data) || data.length === 0) return null;
+
   return {
-    labels,
+    // labels,
     datasets: [
       {
         label: `Mood (${timeframe})`,
-        data: ratings,
+        data: transformData(data, timeframe),
         borderColor: 'rgba(75, 192, 192, 1)',
         backgroundColor: getColorForTimeframe(timeframe),
         fill: true,
         tension: 0.1,
+        spanGaps: false,
+        segment: {
+          borderDash: ctx => ctx.p0.skip || ctx.p1.skip ? [6, 6] : undefined
+        }
       },
     ],
   };
