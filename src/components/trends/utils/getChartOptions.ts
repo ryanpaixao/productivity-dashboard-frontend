@@ -1,8 +1,15 @@
-import DATE_GRANULARITY from '../../../constants/DATE_GRANULARITY';
+import DATE_GRANULARITY, { NUM_OF_DAYS } from '../../../constants/DATE_GRANULARITY';
+
+const getMaxDate = () => new Date();
+const getMinDate = (timeframe: string) => {
+  const date = new Date();
+  date.setDate(date.getDate() - NUM_OF_DAYS[timeframe]);
+  return date;
+};
 
 // Made to handle missing gaps in data
 const getChartOptions = (timeframe: string) => ({
-  // responsive: true,
+  responsive: true,
   scales: {
     x: {
       type: 'time',
@@ -20,6 +27,9 @@ const getChartOptions = (timeframe: string) => ({
         display: true,
         text: 'Date'
       },
+      bounds: 'ticks',
+      min: getMinDate(timeframe),
+      max: getMaxDate(),
     },
     y: {
       min: 1,
@@ -40,7 +50,24 @@ const getChartOptions = (timeframe: string) => ({
       }
     }
   },
-  spanGaps: false // Show gaps in the line for missing data
+  spanGaps: false, // Show gaps in the line for missing data
+  datasets: {
+    line: {
+      // Ensure null values don't break the line
+      spanGaps: false,
+      // Custom segment styling for null values
+      segment: {
+        borderColor: ctx => 
+          ctx.p0.parsed.y === null || ctx.p1.parsed.y === null 
+            ? 'rgba(200, 200, 200, 0.3)' 
+            : undefined,
+        borderDash: ctx => 
+          ctx.p0.parsed.y === null || ctx.p1.parsed.y === null 
+            ? [4, 4] 
+            : undefined
+      }
+    }
+  }
 });
 
 export { getChartOptions };
