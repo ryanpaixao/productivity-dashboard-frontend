@@ -1,75 +1,28 @@
+import { useState } from 'react';
 import { Box, Divider, Flex, Text } from '@chakra-ui/react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-
-// API calls
-import { getMoods, createMood, deleteMood } from "../api/moodsAPI";
 
 // Components
-import MoodButtons from "../components/moods/MoodButtons";
-import MoodList from '../components/moods/MoodList';
+import MoodButtonContainer from '../components/moods/containers/MoodButtonContainer';
+import MoodListContainer from '../components/moods/containers/MoodListContainer';
 
-// Constants
-import ITEM_TYPES from '../constants/ITEM_TYPES';
-const MOOD_QUERY_KEY = 'moods';
-
-const MoodButtonContainer = ({ userId }) => {
-  const queryClient = useQueryClient();
-
-  // Add new Mood
-  const mutation = useMutation({
-    mutationFn: createMood,
-    onSuccess: (_, params, context) => {
-      // Invalidate cache and refetch moods after success
-      queryClient.invalidateQueries({ queryKey: [MOOD_QUERY_KEY] });
-    },
-  });
-  const onMoodSelection = (rating) => {
-    mutation.mutate({
-      userId,
-      rating,
-      createdAt: new Date().toISOString()
-    })
-  };
-
-  return <MoodButtons onMoodSelection={onMoodSelection} />
-};
-
-const MoodListContainer = ({ moods }) => {
-  const queryClient = useQueryClient();
-  
-  // Delete Mood mutation
-  const deleteMutation = useMutation({
-    mutationFn: deleteMood,
-    onSuccess: () => {
-      // Invalidate cache and refetch mood after success
-      queryClient.invalidateQueries({ queryKey: [MOOD_QUERY_KEY] });
-    },
-    // TODO: Add error handling. toast popup
-  });
-
-  return (
-    <MoodList
-      itemType={ITEM_TYPES.MOOD}
-      items={moods}
-      onDelete={deleteMutation.mutate}
-      // onToggle={toggleMutation.mutate}
-    />
-  );
-};
+// hooks
+import { usePaginatedMoods } from '../hooks/usePaginatedMoods';
+import MoodPaginationButtons from '../components/moods/MoodPaginationButtons';
 
 const Moods = () => {
+  const [page, setPage] = useState(1);
+
+  const userId = '6820e188c8970fadd5b3d4ce'; // TODO: update userId fetch. rm default Id
+  const limit = 15; // Set page limit to 15 items
+  const indexOffset = limit * (page - 1) + 1; // indexOffset used to sum with list item index
   const {
     data: moods,
     isLoading,
     error
-  } = useQuery({
-    queryKey:[MOOD_QUERY_KEY],
-    queryFn: getMoods,
-  });
+  } = usePaginatedMoods(userId, page, limit);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
-  const userId = '6820e188c8970fadd5b3d4ce'; // TODO: update userId fetch. rm default Id
 
   return (
     <Flex
@@ -84,7 +37,8 @@ const Moods = () => {
       </Box>
       <Divider mb={4} />
       <MoodButtonContainer userId={userId} />
-      <MoodListContainer moods={moods.data} />
+      <MoodPaginationButtons moods={moods.data} page={page} setPage={setPage} />
+      <MoodListContainer moods={moods.data} indexOffset={indexOffset} />
     </Flex>
   );
 }

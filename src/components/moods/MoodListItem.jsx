@@ -3,7 +3,7 @@ import { DeleteIcon } from '@chakra-ui/icons';
 
 import MoodIcons from './MoodIcons'
 
-const MoodListItem = ({ item = {}, onDelete }) => {
+const MoodListItem = ({ item = {}, onDelete, index }) => {
   const hoverBg = useColorModeValue('gray.50', 'gray.600');
   const mood = MoodIcons.find((obj) => obj.id === item.rating);
   const date = new Date(item.createdAt);
@@ -25,6 +25,9 @@ const MoodListItem = ({ item = {}, onDelete }) => {
             flexGrow={0}
             flexShrink={0}
           >
+            <Box>
+              {index}
+            </Box>
             <Box alignContent={'center'}>
               {mood.icon}
             </Box>
