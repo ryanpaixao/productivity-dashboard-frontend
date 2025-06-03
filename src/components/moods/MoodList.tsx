@@ -2,7 +2,14 @@ import { Divider, FormControl, UnorderedList } from '@chakra-ui/react';
 
 import MoodListItem from './MoodListItem';
 
-const MoodList = ({ items = [], onDelete }) => {
+import type { MoodItem } from './containers/MoodListContainer';
+
+type MoodListProps = {
+  items: MoodItem[];
+  onDelete: (id: string) => void;
+};
+
+const MoodList = ({ items = [], onDelete }: MoodListProps) => {
   return (
     <FormControl flexDirection={'column'} pb={4}>
       <Divider />
