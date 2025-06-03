@@ -2,7 +2,7 @@ import { Box, Divider, Flex, Text } from '@chakra-ui/react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 // API calls
-import { getMoods, createMood, deleteMood } from "../api/moodsAPI";
+import { getMoodsDateRange, createMood, deleteMood } from "../api/moodsAPI";
 
 // Components
 import MoodButtons from "../components/moods/MoodButtons";
@@ -58,18 +58,23 @@ const MoodListContainer = ({ moods }) => {
 };
 
 const Moods = () => {
+  const userId = '6820e188c8970fadd5b3d4ce'; // TODO: update userId fetch. rm default Id
+  const dateRange = 60; // Number of days for date range
+  const endDate = new Date(); // Set to current date/time
+  const startDate = new Date();
+  startDate.setDate(startDate.getDate() - dateRange); // Set startDate to dateRange days before the current time
+
   const {
     data: moods,
     isLoading,
     error
   } = useQuery({
     queryKey:[MOOD_QUERY_KEY],
-    queryFn: getMoods,
+    queryFn: () => getMoodsDateRange(userId, startDate, endDate),
   });
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
-  const userId = '6820e188c8970fadd5b3d4ce'; // TODO: update userId fetch. rm default Id
 
   return (
     <Flex
