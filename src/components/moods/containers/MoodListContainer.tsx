@@ -6,21 +6,18 @@ import { MOOD_QUERY_KEY } from '../../../api/constants/moodQueryKey';
 // Components
 import MoodList from '../MoodList';
 
-export type MoodItem = {
-  userId: string;
-  rating: number | null;
-  createdAt: string | Date;
-  _id: string;
-}
+// Types
+import type { MoodItem } from '../../../types/MoodItem';
 
 type MoodListContainerProps = {
   moods: {
     data: MoodItem[];
     [key: string]: any;
   };
+  indexOffset: number;
 };
 
-const MoodListContainer = ({ moods }: MoodListContainerProps) => {
+const MoodListContainer = ({ moods, indexOffset }: MoodListContainerProps) => {
   const { data: items } = moods;
   const queryClient = useQueryClient();
 
@@ -38,6 +35,7 @@ const MoodListContainer = ({ moods }: MoodListContainerProps) => {
     <MoodList
       items={items}
       onDelete={deleteMutation.mutate}
+      indexOffset={indexOffset}
     />
   );
 };
