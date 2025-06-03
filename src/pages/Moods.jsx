@@ -2,37 +2,15 @@ import { Box, Divider, Flex, Text } from '@chakra-ui/react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 // API calls
-import { getMoodsDateRange, createMood, deleteMood } from "../api/moodsAPI";
+import { getMoodsDateRange, deleteMood } from "../api/moodsAPI";
 
 // Components
-import MoodButtons from "../components/moods/MoodButtons";
+import MoodButtonContainer from '../components/moods/containers/MoodButtonContainer';
 import MoodList from '../components/moods/MoodList';
 
 // Constants
 import ITEM_TYPES from '../constants/ITEM_TYPES';
-const MOOD_QUERY_KEY = 'moods';
-
-const MoodButtonContainer = ({ userId }) => {
-  const queryClient = useQueryClient();
-
-  // Add new Mood
-  const mutation = useMutation({
-    mutationFn: createMood,
-    onSuccess: (_, params, context) => {
-      // Invalidate cache and refetch moods after success
-      queryClient.invalidateQueries({ queryKey: [MOOD_QUERY_KEY] });
-    },
-  });
-  const onMoodSelection = (rating) => {
-    mutation.mutate({
-      userId,
-      rating,
-      createdAt: new Date().toISOString()
-    })
-  };
-
-  return <MoodButtons onMoodSelection={onMoodSelection} />
-};
+import { MOOD_QUERY_KEY } from '../api/constants/moodQueryKey';
 
 const MoodListContainer = ({ moods }) => {
   const queryClient = useQueryClient();
