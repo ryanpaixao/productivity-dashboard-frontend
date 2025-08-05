@@ -1,7 +1,7 @@
-// import { useEffect, useState } from 'react';
+import { lazy } from 'react';
 import { Box } from '@chakra-ui/react';
 
-import MoodChartContainer from '../components/trends/MoodChartContainer';
+const MoodChartContainer = lazy(() => import('../components/trends/MoodChartContainer'));
 // import TimeFrameSelector from '../components/trends/TimeFrameSelector'; // TODO: Add TimeFrame Selector
 
 // Constants
