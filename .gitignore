@@ -27,3 +27,6 @@ dist-ssr
 wants.txt
 wants.md
 todo.md
+
+# Environment variables
+.env
